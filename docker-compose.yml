@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   db:
     image: postgres:15-alpine
@@ -29,7 +27,7 @@ services:
       - .:/code
     environment:
       - DATABASE_URL=postgresql+asyncpg://heroes_user:heroes_pass@db:5432/heroes
-      - SUPERHERO_API_TOKEN=<PUT_YOUR_TOKEN_HERE>
+      - SUPERHERO_API_TOKEN=${SUPERHERO_API_TOKEN}
       - PYTHONPATH=/code
     depends_on:
       db:
