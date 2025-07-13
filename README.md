@@ -26,7 +26,7 @@
    ```bash
    git clone https://github.com/<ваш-пользователь>/SuperHero_api.git
    cd SuperHero_api
-```
+   ```
 
 2. Скопируйте пример файла окружения и укажите токен:
 
