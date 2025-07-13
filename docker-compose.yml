@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: heroes_db
+    environment:
+      POSTGRES_DB: heroes
+      POSTGRES_USER: heroes_user
+      POSTGRES_PASSWORD: heroes_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U heroes_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: heroes_api
+    command: >
+      uvicorn app.main:app
+      --reload
+      --host 0.0.0.0
+      --port 8000
+    volumes:
+      - .:/code
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://heroes_user:heroes_pass@db:5432/heroes
+      - SUPERHERO_API_TOKEN=<PUT_YOUR_TOKEN_HERE>
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
