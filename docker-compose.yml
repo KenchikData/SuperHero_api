@@ -30,6 +30,7 @@ services:
     environment:
       - DATABASE_URL=postgresql+asyncpg://heroes_user:heroes_pass@db:5432/heroes
       - SUPERHERO_API_TOKEN=<PUT_YOUR_TOKEN_HERE>
+      - PYTHONPATH=/code
     depends_on:
       db:
         condition: service_healthy
